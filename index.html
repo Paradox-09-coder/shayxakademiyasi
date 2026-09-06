@@ -204,7 +204,7 @@
         <div class="field" data-req>
           <label>Telefon raqamingiz<span class="req">*</span></label>
           <span class="hint">Misol: +998 90 123 45 67</span>
-          <input type="tel" name="phone" placeholder="+998 90 123 45 67" required>
+          <input type="tel" name="phone" placeholder="+998 90 123 45 67" value="+998 " required>
           <span class="err">Majburiy maydon</span>
         </div>
 
@@ -215,12 +215,6 @@
           <span class="err">Majburiy maydon</span>
         </div>
 
-        <div class="field full" data-req>
-          <label>Elektron pochta manzilingiz<span class="req">*</span></label>
-          <span class="hint">Misol: shayxakademiyasi@gmail.com</span>
-          <input type="email" name="email" placeholder="email@example.com" required>
-          <span class="err">Majburiy maydon</span>
-        </div>
 
         <div class="field full" data-req>
           <label>Akademiyaning nechanchi kursiga hujjat topshiryapsiz?<span class="req">*</span></label>
@@ -307,6 +301,11 @@ const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
 const submitBtn = document.getElementById('submitBtn');
 
+function goToTelegram() {
+  const text = "Assalomu alaykum! Formani to'ldirdim, to'liq ma'lumot bersangiz!";
+  window.location.href = `https://t.me/shayx_akademiyasi_admin?text=${encodeURIComponent(text)}`;
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   msg.className = '';
@@ -339,8 +338,9 @@ form.addEventListener('submit', async (e) => {
   if (!BITRIX_WEBHOOK_URL) {
     console.log('Anketa ma\'lumotlari (Bitrix24 hali ulanmagan):', {...data, ...utm});
     msg.className = 'ok';
-    msg.textContent = 'Rahmat! Anketangiz qabul qilindi (demo rejim — CRM hali ulanmagan).';
+    msg.textContent = 'Tabriklaymiz! Murojaatingiz qabul qilindi. Hozir Telegram\'ga yo\'naltirilasiz...';
     form.reset();
+    setTimeout(goToTelegram, 1800);
     return;
   }
 
@@ -389,7 +389,6 @@ form.addEventListener('submit', async (e) => {
           UF_CRM_1788614899: data.age,                              // Yoshingiz
           UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
           UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
-          UF_CRM_1788614962: data.email,                            // Elektron pochta manzilingiz
           UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
           UF_CRM_1788615053: arabicMap[data.arabic_level] || null,  // Arab tilini bilish darajangiz
           UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
@@ -408,8 +407,9 @@ form.addEventListener('submit', async (e) => {
     const json = await res.json();
     if (json.result) {
       msg.className = 'ok';
-      msg.textContent = 'Rahmat! Anketangiz muvaffaqiyatli yuborildi.';
+      msg.textContent = 'Tabriklaymiz! Murojaatingiz qabul qilindi. Hozir Telegram\'ga yo\'naltirilasiz...';
       form.reset();
+      setTimeout(goToTelegram, 1800);
     } else {
       throw new Error(json.error_description || 'Noma\'lum xatolik');
     }
