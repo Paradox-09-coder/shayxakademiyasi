@@ -135,6 +135,27 @@
   #formMsg.ok{display:block;background:rgba(31,122,77,.1);color:var(--ok);border:1px solid rgba(31,122,77,.3);}
   #formMsg.bad{display:block;background:rgba(179,66,46,.1);color:var(--danger);border:1px solid rgba(179,66,46,.3);}
 
+  /* SUCCESS MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(11,46,38,.6);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:1000;
+  }
+  .modal-overlay[hidden]{display:none;}
+  .modal-box{
+    background:var(--panel);border-radius:20px;padding:36px 32px;
+    max-width:380px;width:100%;text-align:center;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.45);
+  }
+  .modal-icon{
+    width:56px;height:56px;border-radius:50%;background:var(--ok);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:28px;margin:0 auto 18px;
+  }
+  .modal-box h3{color:var(--ink);margin-bottom:8px;}
+  .modal-box p{color:var(--ink-soft);margin-bottom:0;}
+  .modal-box .modal-note{margin-top:14px;font-size:.85rem;color:var(--ink-soft);}
+
   footer{padding:32px 0;text-align:center;color:var(--ink-soft);font-size:.85rem;}
 
   @media (max-width:760px){
@@ -276,6 +297,15 @@
   </div>
 </section>
 
+<div class="modal-overlay" id="successModal" hidden>
+  <div class="modal-box">
+    <div class="modal-icon">&#10003;</div>
+    <h3>Sizni tabriklaymiz!</h3>
+    <p>Murojaatingiz qabul qilindi.</p>
+    <p class="modal-note">Hozir Telegram'ga yo'naltirilasiz...</p>
+  </div>
+</div>
+
 <footer>
   &copy; <span id="year"></span> Shayx Akademiyasi
 </footer>
@@ -300,10 +330,16 @@ function getUtmParams() {
 const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
 const submitBtn = document.getElementById('submitBtn');
+const successModal = document.getElementById('successModal');
 
 function goToTelegram() {
   const text = "Assalomu alaykum! Formani to'ldirdim, to'liq ma'lumot bersangiz!";
   window.location.href = `https://t.me/shayx_akademiyasi_admin?text=${encodeURIComponent(text)}`;
+}
+
+function showSuccessAndRedirect() {
+  successModal.hidden = false;
+  setTimeout(goToTelegram, 1800);
 }
 
 form.addEventListener('submit', async (e) => {
@@ -337,10 +373,8 @@ form.addEventListener('submit', async (e) => {
 
   if (!BITRIX_WEBHOOK_URL) {
     console.log('Anketa ma\'lumotlari (Bitrix24 hali ulanmagan):', {...data, ...utm});
-    msg.className = 'ok';
-    msg.textContent = 'Tabriklaymiz! Murojaatingiz qabul qilindi. Hozir Telegram\'ga yo\'naltirilasiz...';
     form.reset();
-    setTimeout(goToTelegram, 1800);
+    showSuccessAndRedirect();
     return;
   }
 
@@ -406,10 +440,8 @@ form.addEventListener('submit', async (e) => {
 
     const json = await res.json();
     if (json.result) {
-      msg.className = 'ok';
-      msg.textContent = 'Tabriklaymiz! Murojaatingiz qabul qilindi. Hozir Telegram\'ga yo\'naltirilasiz...';
       form.reset();
-      setTimeout(goToTelegram, 1800);
+      showSuccessAndRedirect();
     } else {
       throw new Error(json.error_description || 'Noma\'lum xatolik');
     }
