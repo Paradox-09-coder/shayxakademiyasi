@@ -332,6 +332,14 @@ function getLandingUrl() {
   return sessionStorage.getItem('landing_url') || window.location.href;
 }
 
+// ManyChat'dagi Instagram tugmasidan ?psid=... orqali kelgan foydalanuvchi ID'si
+function getIgPsid() {
+  const p = new URLSearchParams(window.location.search);
+  const psid = p.get('psid');
+  if (psid) sessionStorage.setItem('ig_psid', psid);
+  return sessionStorage.getItem('ig_psid') || null;
+}
+
 const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
 const submitBtn = document.getElementById('submitBtn');
@@ -439,7 +447,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(BACKEND_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ site: SITE_ID, data, fields })
+      body: JSON.stringify({ site: SITE_ID, data, fields, igPsid: getIgPsid() })
     });
 
     const json = await res.json();
