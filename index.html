@@ -46,7 +46,7 @@
   /* HERO */
   .hero{
     background:var(--panel-soft);
-    padding:48px 0 12px;text-align:center;
+    padding:32px 0 12px;text-align:center;
   }
   .hero .eyebrow{
     display:inline-block;color:var(--green);font-weight:700;
@@ -64,11 +64,14 @@
   .btn-primary{background:var(--gold);color:var(--green);}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(201,162,39,.55);}
 
+  /* LOGO */
+  .site-logo{width:64px;height:64px;object-fit:contain;display:block;margin:0 auto 14px;}
+
   /* VIDEO */
   .video-wrap{
-    position:relative;width:100%;aspect-ratio:16/9;
+    position:relative;width:100%;max-width:480px;aspect-ratio:16/9;
     background:#000;border-radius:20px;overflow:hidden;
-    box-shadow:var(--shadow);margin:0 auto 28px;
+    box-shadow:var(--shadow);margin:0 auto 20px;
   }
   .video-wrap iframe{width:100%;height:100%;display:block;border:0;}
 
@@ -258,7 +261,7 @@
         </div>
 
         <div class="field full" data-req>
-          <label>Maktabni bitirib, shahodatnoma olganmisiz?<span class="req">*</span></label>
+          <label>Maktabni bitirib, shahodatnoma/attestat olganmisiz?<span class="req">*</span></label>
           <div class="radio-group" data-radio="certificate">
             <label class="radio-option"><input type="radio" name="certificate" value="Ha" required> Ha</label>
             <label class="radio-option"><input type="radio" name="certificate" value="Yo'q"> Yo'q</label>
