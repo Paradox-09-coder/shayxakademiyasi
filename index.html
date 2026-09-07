@@ -311,8 +311,9 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// --- Bitrix24 webhook ---
-const BITRIX_WEBHOOK_URL = 'https://akademiya.bitrix24.kz/rest/13/jdjigv8hjfob5ic1/crm.lead.add.json';
+// --- Backend (lidlar bazasi + Bitrix24 forward) ---
+const BACKEND_URL = 'https://lidlar-bazasi.vercel.app/api/submit';
+const SITE_ID = 'shaxy-akademiyasi';
 
 function getUtmParams() {
   const p = new URLSearchParams(window.location.search);
@@ -380,13 +381,6 @@ form.addEventListener('submit', async (e) => {
   const data = Object.fromEntries(new FormData(form).entries());
   const utm = getUtmParams();
 
-  if (!BITRIX_WEBHOOK_URL) {
-    console.log('Anketa ma\'lumotlari (Bitrix24 hali ulanmagan):', {...data, ...utm});
-    form.reset();
-    showSuccessAndRedirect();
-    return;
-  }
-
   submitBtn.disabled = true;
   submitBtn.textContent = 'Yuborilmoqda...';
 
@@ -418,42 +412,42 @@ form.addEventListener('submit', async (e) => {
       "Xabarim yo'q, tanishishni xohlayman": 545,
     };
 
-    const res = await fetch(BITRIX_WEBHOOK_URL, {
+    const fields = {
+      TITLE: `Shayx Akademiyasi anketasi — ${data.full_name}`,
+      NAME: data.full_name,
+      BIRTHDATE: data.birth_date,
+      STATUS_ID: 'IN_PROCESS',
+      SOURCE_ID: 'WEB',
+      SOURCE_DESCRIPTION: getLandingUrl(),
+      PHONE: [{VALUE: data.phone, VALUE_TYPE: 'WORK'}],
+      UF_CRM_1788614899: data.age,                              // Yoshingiz
+      UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
+      UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
+      UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
+      UF_CRM_1788615053: arabicMap[data.arabic_level] || null,  // Arab tilini bilish darajangiz
+      UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
+      UF_CRM_1788615095: istanbulMap[data.istanbul_ready] || null, // Istanbulga kelib tahsil ololasizmi?
+      UF_CRM_1788615121: tuitionMap[data.tuition_aware] || null,  // Yillik to'lovlar haqida xabaringiz bormi?
+      UF_CRM_1788624666: 547,                                    // Proekt: Shayx Akademiyasi - 5 yillik
+      UTM_SOURCE:   utm.utm_source   || null,
+      UTM_MEDIUM:   utm.utm_medium   || null,
+      UTM_CAMPAIGN: utm.utm_campaign || null,
+      UTM_CONTENT:  utm.utm_content  || null,
+      UTM_TERM:     utm.utm_term     || null,
+    };
+
+    const res = await fetch(BACKEND_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        fields: {
-          TITLE: `Shayx Akademiyasi anketasi — ${data.full_name}`,
-          NAME: data.full_name,
-          BIRTHDATE: data.birth_date,
-          STATUS_ID: 'IN_PROCESS',
-          SOURCE_ID: 'WEB',
-          SOURCE_DESCRIPTION: getLandingUrl(),
-          PHONE: [{VALUE: data.phone, VALUE_TYPE: 'WORK'}],
-          UF_CRM_1788614899: data.age,                              // Yoshingiz
-          UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
-          UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
-          UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
-          UF_CRM_1788615053: arabicMap[data.arabic_level] || null,  // Arab tilini bilish darajangiz
-          UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
-          UF_CRM_1788615095: istanbulMap[data.istanbul_ready] || null, // Istanbulga kelib tahsil ololasizmi?
-          UF_CRM_1788615121: tuitionMap[data.tuition_aware] || null,  // Yillik to'lovlar haqida xabaringiz bormi?
-          UF_CRM_1788624666: 547,                                    // Proekt: Shayx Akademiyasi - 5 yillik
-          UTM_SOURCE:   utm.utm_source   || null,
-          UTM_MEDIUM:   utm.utm_medium   || null,
-          UTM_CAMPAIGN: utm.utm_campaign || null,
-          UTM_CONTENT:  utm.utm_content  || null,
-          UTM_TERM:     utm.utm_term     || null,
-        }
-      })
+      body: JSON.stringify({ site: SITE_ID, data, fields })
     });
 
     const json = await res.json();
-    if (json.result) {
+    if (json.ok) {
       form.reset();
       showSuccessAndRedirect();
     } else {
-      throw new Error(json.error_description || 'Noma\'lum xatolik');
+      throw new Error(json.error || 'Noma\'lum xatolik');
     }
   } catch (err) {
     msg.className = 'bad';
