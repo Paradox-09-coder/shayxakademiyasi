@@ -325,6 +325,12 @@ function getUtmParams() {
   return saved ? JSON.parse(saved) : {};
 }
 
+// Forma qaysi to'liq URL (barcha parametrlari bilan) orqali ochilganini saqlab qolamiz
+function getLandingUrl() {
+  if (window.location.search) sessionStorage.setItem('landing_url', window.location.href);
+  return sessionStorage.getItem('landing_url') || window.location.href;
+}
+
 const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
 const submitBtn = document.getElementById('submitBtn');
@@ -422,6 +428,7 @@ form.addEventListener('submit', async (e) => {
           BIRTHDATE: data.birth_date,
           STATUS_ID: 'IN_PROCESS',
           SOURCE_ID: 'WEB',
+          SOURCE_DESCRIPTION: getLandingUrl(),
           PHONE: [{VALUE: data.phone, VALUE_TYPE: 'WORK'}],
           UF_CRM_1788614899: data.age,                              // Yoshingiz
           UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
