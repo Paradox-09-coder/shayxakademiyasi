@@ -332,12 +332,13 @@ function getLandingUrl() {
   return sessionStorage.getItem('landing_url') || window.location.href;
 }
 
-// ManyChat'dagi Instagram tugmasidan ?psid=... orqali kelgan foydalanuvchi ID'si
-function getIgPsid() {
+// ManyChat'dagi Instagram tugmasidan ?mcp_token=... orqali keladi —
+// ichida foydalanuvchi ID'si shifrlanmagan holda kodlangan (backend ochadi)
+function getMcpToken() {
   const p = new URLSearchParams(window.location.search);
-  const psid = p.get('psid');
-  if (psid) sessionStorage.setItem('ig_psid', psid);
-  return sessionStorage.getItem('ig_psid') || null;
+  const token = p.get('mcp_token');
+  if (token) sessionStorage.setItem('mcp_token', token);
+  return sessionStorage.getItem('mcp_token') || null;
 }
 
 const form = document.getElementById('applyForm');
@@ -447,7 +448,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(BACKEND_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ site: SITE_ID, data, fields, igPsid: getIgPsid() })
+      body: JSON.stringify({ site: SITE_ID, data, fields, mcpToken: getMcpToken() })
     });
 
     const json = await res.json();
