@@ -214,7 +214,7 @@
         <div class="field" data-req>
           <label>Yoshingiz<span class="req">*</span></label>
           <span class="hint">Qabul yoshi: 18–30 yosh.</span>
-          <input type="number" name="age" min="18" max="30" placeholder="Masalan: 20" required>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" name="age" maxlength="3" placeholder="Masalan: 20" required>
           <span class="err">Majburiy maydon</span>
         </div>
 
@@ -355,6 +355,11 @@ phoneInput.addEventListener('input', () => {
   phoneInput.value = phoneInput.value.replace(/[^\d+ ]/g, '');
 });
 
+const ageInput = form.querySelector('[name=age]');
+ageInput.addEventListener('input', () => {
+  ageInput.value = ageInput.value.replace(/\D/g, '');
+});
+
 function goToTelegram() {
   const text = "Assalomu alaykum! Formani to'ldirdim, to'liq ma'lumot bersangiz!";
   window.location.href = `https://t.me/shayx_akademiyasi_admin?text=${encodeURIComponent(text)}`;
@@ -425,11 +430,14 @@ form.addEventListener('submit', async (e) => {
       "Xabarim yo'q, tanishishni xohlayman": 545,
     };
 
+    const ageNum = parseInt(data.age, 10);
+    const ageOk = Number.isFinite(ageNum) && ageNum >= 18 && ageNum <= 30;
+
     const fields = {
       TITLE: `Shayx Akademiyasi anketasi — ${data.full_name}`,
       NAME: data.full_name,
       BIRTHDATE: data.birth_date,
-      STATUS_ID: 'IN_PROCESS',
+      STATUS_ID: ageOk ? 'IN_PROCESS' : 'UC_L2NDEP', // Yoshi to'g'ri kelmaganlar
       SOURCE_ID: 'WEB',
       SOURCE_DESCRIPTION: getLandingUrl(),
       PHONE: [{VALUE: data.phone, VALUE_TYPE: 'WORK'}],
