@@ -430,23 +430,15 @@ form.addEventListener('submit', async (e) => {
       "Xabarim yo'q, tanishishni xohlayman": 545,
     };
 
-    const ageNum = parseInt(data.age, 10);
-    let ageStatus = 'IN_PROCESS';
-    if (Number.isFinite(ageNum)) {
-      if (ageNum < 18) ageStatus = 'UC_L2NDEP';   // Yoshi to'g'ri kelmaganlar
-      else if (ageNum > 30) ageStatus = 'UC_R7W6R0'; // Sifatsiz lid
-    }
-
     const fields = {
       TITLE: `Shayx Akademiyasi anketasi — ${data.full_name}`,
       NAME: data.full_name,
       BIRTHDATE: data.birth_date,
-      STATUS_ID: ageStatus,
+      STATUS_ID: 'IN_PROCESS',
       SOURCE_ID: 'WEB',
       SOURCE_DESCRIPTION: getLandingUrl(),
       PHONE: [{VALUE: data.phone, VALUE_TYPE: 'WORK'}],
       UF_CRM_1788614899: data.age,                              // Yoshingiz
-      UF_CRM_1787566181: ageStatus === 'UC_R7W6R0' ? 813 : null, // Sifatsiz lid sababi: 30 yoshdan baland
       UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
       UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
       UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
