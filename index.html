@@ -74,6 +74,16 @@
     box-shadow:var(--shadow);margin:0 auto 10px;
   }
   .video-wrap iframe{width:100%;height:100%;display:block;border:0;}
+  .video-facade{
+    position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;
+    background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;
+  }
+  .video-facade .play-btn{
+    width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,.55);
+    display:flex;align-items:center;justify-content:center;transition:transform .15s ease, background .15s ease;
+  }
+  .video-facade:hover .play-btn{background:rgba(201,162,39,.9);transform:scale(1.06);}
+  .video-facade .play-btn svg{width:26px;height:26px;margin-left:4px;}
 
   .section-head{max-width:640px;margin:0 auto 16px;text-align:center;}
   .section-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);color:var(--ink);margin:0 0 14px;}
@@ -174,8 +184,12 @@
 <section class="hero">
   <div class="wrap" style="max-width:760px;">
     <img src="logo.png" alt="Shayx Akademiyasi" class="site-logo">
-    <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/56njhS-IDP0" title="Shayx Akademiyasi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div class="video-wrap" id="videoWrap">
+      <button type="button" class="video-facade" id="videoFacade" aria-label="Videoni ishga tushirish" style="background-image:url('https://img.youtube.com/vi/56njhS-IDP0/hqdefault.jpg');">
+        <span class="play-btn">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </button>
     </div>
   </div>
 </section>
@@ -344,6 +358,18 @@ function getMcpToken() {
   if (token) sessionStorage.setItem('mcp_token', token);
   return sessionStorage.getItem('mcp_token') || null;
 }
+
+const videoFacade = document.getElementById('videoFacade');
+videoFacade.addEventListener('click', () => {
+  const iframe = document.createElement('iframe');
+  iframe.src = 'https://www.youtube.com/embed/56njhS-IDP0?autoplay=1';
+  iframe.title = 'Shayx Akademiyasi';
+  iframe.frameBorder = '0';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+  iframe.allowFullscreen = true;
+  document.getElementById('videoWrap').replaceChildren(iframe);
+}, { once: true });
 
 const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
