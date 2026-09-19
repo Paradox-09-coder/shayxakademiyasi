@@ -302,6 +302,18 @@
           <span class="err">Tanlang</span>
         </div>
 
+        <div class="field full" data-req>
+          <label>Kim uchun bu hujjat topshirmoqdasiz?<span class="req">*</span></label>
+          <div class="radio-group" data-radio="doc_for_whom">
+            <label class="radio-option"><input type="radio" name="doc_for_whom" value="O'zim uchun (Erkak kishiman)" required> O'zim uchun (Erkak kishiman)</label>
+            <label class="radio-option"><input type="radio" name="doc_for_whom" value="O'zim uchun (Ayol kishiman)"> O'zim uchun (Ayol kishiman)</label>
+            <label class="radio-option"><input type="radio" name="doc_for_whom" value="O'g'limga"> O'g'limga</label>
+            <label class="radio-option"><input type="radio" name="doc_for_whom" value="Qizimga"> Qizimga</label>
+            <label class="radio-option"><input type="radio" name="doc_for_whom" value="Qarindoshga"> Qarindoshga</label>
+          </div>
+          <span class="err">Tanlang</span>
+        </div>
+
       </div>
 
       <div class="form-submit">
@@ -455,6 +467,13 @@ form.addEventListener('submit', async (e) => {
       'Ha': 543,
       "Xabarim yo'q, tanishishni xohlayman": 545,
     };
+    const docForWhomMap = {
+      "O'zim uchun (Erkak kishiman)": 885,
+      "O'zim uchun (Ayol kishiman)": 887,
+      "O'g'limga": 889,
+      'Qizimga': 891,
+      'Qarindoshga': 893,
+    };
 
     const fields = {
       TITLE: `Shayx Akademiyasi anketasi — ${data.full_name}`,
@@ -472,6 +491,7 @@ form.addEventListener('submit', async (e) => {
       UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
       UF_CRM_1788615095: istanbulMap[data.istanbul_ready] || null, // Istanbulga kelib tahsil ololasizmi?
       UF_CRM_1788615121: tuitionMap[data.tuition_aware] || null,  // Yillik to'lovlar haqida xabaringiz bormi?
+      UF_CRM_HUJJAT_KIM: docForWhomMap[data.doc_for_whom] || null, // Kim uchun bu hujjat topshirmoqdasiz?
       UF_CRM_1788624666: 547,                                    // Proekt: Shayx Akademiyasi - 5 yillik
       UTM_SOURCE:   utm.utm_source   || null,
       UTM_MEDIUM:   utm.utm_medium   || null,
