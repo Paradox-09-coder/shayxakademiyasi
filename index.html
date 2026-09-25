@@ -95,12 +95,27 @@ src="https://www.facebook.com/tr?id=2086048158714314&ev=PageView&noscript=1"
     position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;
     background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;
   }
-  .video-facade .play-btn{
-    width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,.55);
-    display:flex;align-items:center;justify-content:center;transition:transform .15s ease, background .15s ease;
+  .video-facade::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 22%);
+    pointer-events:none;
   }
-  .video-facade:hover .play-btn{background:rgba(201,162,39,.9);transform:scale(1.06);}
-  .video-facade .play-btn svg{width:26px;height:26px;margin-left:4px;}
+  .video-facade .play-btn{
+    position:relative;z-index:1;
+    width:88px;height:62px;border-radius:16px;background:#ff0000;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .video-facade:hover .play-btn{background:#e00000;transform:scale(1.06);}
+  .video-facade .play-btn svg{width:30px;height:30px;margin-left:4px;}
+  .video-facade .yt-badge{
+    position:absolute;right:12px;bottom:12px;z-index:1;
+    display:flex;align-items:center;gap:6px;
+    background:rgba(0,0,0,.75);color:#fff;font-size:12px;font-weight:700;
+    padding:6px 12px 6px 8px;border-radius:20px;
+  }
+  .video-facade .yt-badge svg{width:16px;height:16px;flex:none;}
 
   .section-head{max-width:640px;margin:0 auto 16px;text-align:center;}
   .section-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);color:var(--ink);margin:0 0 14px;}
@@ -205,6 +220,10 @@ src="https://www.facebook.com/tr?id=2086048158714314&ev=PageView&noscript=1"
       <button type="button" class="video-facade" id="videoFacade" aria-label="Videoni ishga tushirish" style="background-image:url('https://img.youtube.com/vi/56njhS-IDP0/hqdefault.jpg');">
         <span class="play-btn">
           <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span class="yt-badge">
+          <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="4" fill="#ff0000"/><path d="M10 8.5v7l6-3.5z" fill="#fff"/></svg>
+          YouTube'da tomosha qilish
         </span>
       </button>
     </div>
