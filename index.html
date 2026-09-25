@@ -97,9 +97,37 @@ src="https://www.facebook.com/tr?id=2086048158714314&ev=PageView&noscript=1"
   }
   .video-facade::after{
     content:"";position:absolute;inset:0;
-    background:linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 22%);
+    background:linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 22%),
+               linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 30%);
     pointer-events:none;
   }
+  .video-facade .yt-title{
+    position:absolute;top:12px;left:12px;right:12px;z-index:1;
+    display:flex;align-items:center;gap:10px;text-align:left;
+  }
+  .video-facade .yt-title img{
+    width:34px;height:34px;border-radius:50%;object-fit:cover;
+    background:var(--green);flex:none;border:1.5px solid rgba(255,255,255,.7);
+  }
+  .video-facade .yt-title .yt-title-text{min-width:0;}
+  .video-facade .yt-title-text b{
+    display:block;color:#fff;font-size:13px;font-weight:700;line-height:1.25;
+    text-shadow:0 1px 3px rgba(0,0,0,.5);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .video-facade .yt-title-text span{
+    display:block;color:rgba(255,255,255,.8);font-size:11px;margin-top:2px;
+    text-shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+  .video-facade .yt-controls{
+    position:absolute;left:12px;bottom:12px;z-index:1;
+    display:flex;gap:8px;
+  }
+  .video-facade .yt-controls span{
+    width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.55);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .video-facade .yt-controls svg{width:16px;height:16px;fill:#fff;}
   .video-facade .play-btn{
     position:relative;z-index:1;
     width:88px;height:62px;border-radius:16px;background:#ff0000;
@@ -218,6 +246,17 @@ src="https://www.facebook.com/tr?id=2086048158714314&ev=PageView&noscript=1"
     <img src="logo.png" alt="Shayx Akademiyasi" class="site-logo">
     <div class="video-wrap" id="videoWrap">
       <button type="button" class="video-facade" id="videoFacade" aria-label="Videoni ishga tushirish" style="background-image:url('https://img.youtube.com/vi/56njhS-IDP0/hqdefault.jpg');">
+        <span class="yt-title">
+          <img src="logo.png" alt="">
+          <span class="yt-title-text">
+            <b>Shayx Muhammad Sodiq Akademiyasi 2026 TO'LIQ</b>
+            <span>Shayx Muhammad Sodiq Akademiyasi</span>
+          </span>
+        </span>
+        <span class="yt-controls">
+          <span><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 1 0-3-3c0 .24.04.47.09.7L8.04 9.81A2.99 2.99 0 1 0 6 14.7l7.13 4.16c-.05.21-.08.43-.08.65a2.92 2.92 0 1 0 4.95-2.13Z"/></svg></span>
+          <span><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3Zm1 3v6l5 3-1 1.7-6-3.7V6h2Z"/></svg></span>
+        </span>
         <span class="play-btn">
           <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
         </span>
