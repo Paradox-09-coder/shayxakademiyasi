@@ -321,6 +321,22 @@ src="https://www.facebook.com/tr?id=2086048158714314&ev=PageView&noscript=1"
         </div>
 
         <div class="field full" data-req>
+          <label>Qur'oni Karimni arab tilida o'qib, yodlay olasizmi?<span class="req">*</span></label>
+          <div class="radio-group" data-radio="quran_level">
+            <label class="radio-option"><input type="radio" name="quran_level" value="Yo'q o'qiy olmayman" required> Yo'q o'qiy olmayman</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="Endi boshladim, harflarni o'rganmoqdaman"> Endi boshladim, harflarni o'rganmoqdaman</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="Harflarni tugatdim, Tajvidga o'tdim"> Harflarni tugatdim, Tajvidga o'tdim</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="Tajvid bilan ravon o'qiyman"> Tajvid bilan ravon o'qiyman</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="Ayrim suralarni yod olganman"> Ayrim suralarni yod olganman</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="1-5 pora"> 1-5 pora</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="6-15 pora"> 6-15 pora</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="16-29 pora"> 16-29 pora</label>
+            <label class="radio-option"><input type="radio" name="quran_level" value="30 pora (Qori)"> 30 pora (Qori)</label>
+          </div>
+          <span class="err">Tanlang</span>
+        </div>
+
+        <div class="field full" data-req>
           <label>Arab tilini bilish darajangiz<span class="req">*</span></label>
           <div class="radio-group" data-radio="arabic_level">
             <label class="radio-option"><input type="radio" name="arabic_level" value="Umuman bilmayman, endi boshlayman" required> Umuman bilmayman, endi boshlayman</label>
@@ -489,6 +505,17 @@ form.addEventListener('submit', async (e) => {
       '2-kurs': 521,
       '3-kurs': 523,
     };
+    const quranMap = {
+      "Yo'q o'qiy olmayman": 1575,
+      "Endi boshladim, harflarni o'rganmoqdaman": 1577,
+      "Harflarni tugatdim, Tajvidga o'tdim": 1579,
+      "Tajvid bilan ravon o'qiyman": 1581,
+      "Ayrim suralarni yod olganman": 1583,
+      '1-5 pora': 1585,
+      '6-15 pora': 1587,
+      '16-29 pora': 1589,
+      '30 pora (Qori)': 1591,
+    };
     const arabicMap = {
       "Umuman bilmayman, endi boshlayman": 525,
       "Faqat Qur'on o'qishni bilaman": 527,
@@ -528,6 +555,7 @@ form.addEventListener('submit', async (e) => {
       UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
       UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
       UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
+      UF_CRM_QURON_DARAJA: quranMap[data.quran_level] || null,  // Qur'oni Karimni o'qib, yodlay olasizmi?
       UF_CRM_1788615053: arabicMap[data.arabic_level] || null,  // Arab tilini bilish darajangiz
       UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
       UF_CRM_1788615095: istanbulMap[data.istanbul_ready] || null, // Istanbulga kelib tahsil ololasizmi?
