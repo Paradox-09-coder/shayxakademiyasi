@@ -506,15 +506,15 @@ form.addEventListener('submit', async (e) => {
       '3-kurs': 523,
     };
     const quranMap = {
-      "Yo'q o'qiy olmayman": 1575,
-      "Endi boshladim, harflarni o'rganmoqdaman": 1577,
-      "Harflarni tugatdim, Tajvidga o'tdim": 1579,
-      "Tajvid bilan ravon o'qiyman": 1581,
-      "Ayrim suralarni yod olganman": 1583,
-      '1-5 pora': 1585,
-      '6-15 pora': 1587,
-      '16-29 pora': 1589,
-      '30 pora (Qori)': 1591,
+      "Yo'q o'qiy olmayman": 1623,
+      "Endi boshladim, harflarni o'rganmoqdaman": 1625,
+      "Harflarni tugatdim, Tajvidga o'tdim": 1627,
+      "Tajvid bilan ravon o'qiyman": 1629,
+      "Ayrim suralarni yod olganman": 1631,
+      '1-5 pora': 1633,
+      '6-15 pora': 1635,
+      '16-29 pora': 1637,
+      '30 pora (Qori)': 1639,
     };
     const arabicMap = {
       "Umuman bilmayman, endi boshlayman": 525,
@@ -555,7 +555,7 @@ form.addEventListener('submit', async (e) => {
       UF_CRM_1788614921: data.address,                          // Yashash manzilingiz
       UF_CRM_1788614947: data.telegram,                         // Telegram username yoki raqamingiz
       UF_CRM_1788615002: courseMap[data.course] || null,        // Akademiyaning nechanchi kursiga...
-      UF_CRM_QURON_DARAJA: quranMap[data.quran_level] || null,  // Qur'oni Karimni o'qib, yodlay olasizmi?
+      UF_CRM_1791033415: quranMap[data.quran_level] || null,    // Qur'oni Karimni o'qiy olasizmi
       UF_CRM_1788615053: arabicMap[data.arabic_level] || null,  // Arab tilini bilish darajangiz
       UF_CRM_1788615075: certificateMap[data.certificate] || null, // Shahodatnoma olganmisiz?
       UF_CRM_1788615095: istanbulMap[data.istanbul_ready] || null, // Istanbulga kelib tahsil ololasizmi?
